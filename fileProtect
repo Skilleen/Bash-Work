@@ -1,0 +1,6 @@
+#Created by Scott Killeen, 12sjk11, 10093303 #
+
+chmod u+x *x*x*
+chmod g+rw *
+chmod o+r a* b*
+chmod o+x *d *e
