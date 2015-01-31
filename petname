@@ -1,0 +1,4 @@
+#Created by Scott Killeen, 12sjk11, 10093303.#
+
+echo "My $2's name is $1"
+echo "I paid \$$3 for $1"
