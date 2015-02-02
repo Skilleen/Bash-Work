@@ -1,0 +1,3 @@
+#Created by Scott Killeen, 12sjk11, 10093303.#
+
+ls $1 | /cas/course/cisc220/linenums >~/listing
