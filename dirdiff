@@ -1,0 +1,84 @@
+#Assignment 2, October 13 2014. (Group)#
+#Scott Killeen, 12sjk11, 10093303#
+#Nick Smith,12nws 1009522 #
+
+
+#Creating/overwriting the text file.#
+echo >| diffReport.txt
+
+# If statement checking to make sure correct amount of parameters were entered. #
+#  It then checks to make sure both directories exist and are readable.  #
+
+if [[ "$#" != "2" ]]
+then
+	>&2 echo "ERROR, illegal amount of parameters"
+	exit 1
+else
+
+	if [[ ! -d "$1" ]]
+	then  	
+		>&2 echo "ERROR, $1 is a non exisiting/readable directory." 
+		exit 1
+	fi
+
+	if [[ ! -d  "$2" ]]
+	then
+		>&2 echo "ERROR, $2 is a non exisiting/readable directory." 
+		exit 1
+	fi
+
+fi
+
+
+
+#Here a helper variable is used. It will be set to 1 if there is an error. #
+Count=0
+
+
+#These two loops check to see if each file in the directory exists in the other directory. #
+
+for files in $1/*
+do
+	if [[ -e $files && ! -e $2/$(basename $files) ]]; then
+	   echo "$(basename $files) exists in $1 but not in $2" >> diffReport.txt
+	   Count=1	  
+	fi
+done
+for otherFiles in $2/*
+do
+	if [[ -e $otherFiles && ! -e $1/$(basename $otherFiles) ]]; then
+		   echo "$(basename $otherFiles) exists in $2 but not in $1" >> diffReport.txt
+		   Count=1
+	fi
+done
+
+
+
+#These for loops check to see if the files are identical.#
+
+for files in $1/*
+do
+	for otherFiles in $2/*
+	do
+		if [[ (( $(basename $files) = $(basename $otherFiles) )) ]]; then
+		   if  diff $files $otherFiles >/dev/null ; then
+		       :
+		   else
+		      echo "Differences found between $files and $otherFiles:" >> diffReport.txt		     
+		      diff $files $otherFiles >> diffReport.txt
+		      Count=1
+		   fi
+		
+			
+		fi
+	done
+done
+
+
+
+
+#If an error ever occured, exit 1. #
+
+if [[ $Count = 1 ]]; then
+   exit 1
+fi
