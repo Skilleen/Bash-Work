@@ -1,0 +1,4 @@
+#Created by Scott Killeen, 10093303. October 23 2014 #
+
+find $1 -type f -name '*.c' -exec grep -w "$2" /dev/null {} \;
+find $1 -type f -name '*.h' -exec grep -w "$2" /dev/null {} \;
